@@ -18,27 +18,6 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
       <div ref={ref} className="proposal-paper bg-white">
         {/* Page 1 - Cover Page */}
         <div className="min-h-[800px] flex flex-col p-8">
-          {/* Header with Logo */}
-          <div className="text-center mb-8">
-            <img 
-              src={connectLogo} 
-              alt="Connect Training Solutions" 
-              className="h-20 mx-auto mb-4 object-contain"
-            />
-            <div className="text-sm text-proposal-muted space-y-1">
-              <p>Tirunelveli, Tamil Nadu - 627001</p>
-              <p>+91 9600965961</p>
-              <p className="text-primary">www.connecteducation.com</p>
-            </div>
-          </div>
-
-          {/* Title */}
-          <div className="text-center my-8">
-            <h1 className="text-3xl font-bold text-proposal-header tracking-wide">
-              TRAINING PROPOSAL
-            </h1>
-          </div>
-
           {/* Presented To / By Table */}
           <div className="my-6">
             <table className="w-full border-collapse">
