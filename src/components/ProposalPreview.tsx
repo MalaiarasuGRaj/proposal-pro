@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import { ProposalData } from "@/types/proposal";
-import connectLogo from "@/assets/connect-logo.jpg";
 import qrWhatsapp from "@/assets/qr-whatsapp.jpg";
 import qrWebsite from "@/assets/qr-website.jpg";
 
