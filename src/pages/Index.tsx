@@ -6,8 +6,20 @@ import { ProposalPreview } from "@/components/ProposalPreview";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import { ProposalData, initialProposalData } from "@/types/proposal";
 import { Button } from "@/components/ui/button";
-import { Download, Eye, FileText, CheckCircle2 } from "lucide-react";
+import { Download, Eye, FileText, Trash2 } from "lucide-react";
+import { FloatingProgress } from "@/components/FloatingProgress";
 import { useToast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const Index = () => {
   const [proposalData, setProposalData] = useState<ProposalData>(initialProposalData);
@@ -50,32 +62,21 @@ const Index = () => {
     }
   };
 
+  const handleClearForm = () => {
+    setProposalData(initialProposalData);
+    toast({
+      title: "Form Cleared",
+      description: "All fields have been reset to empty.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container mx-auto px-4 py-6">
-        {/* Progress Indicator */}
-        <div className="mb-6 bg-card rounded-lg border border-border p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-primary" />
-              <span className="font-medium text-foreground">Form Progress</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {isFormComplete && <CheckCircle2 className="w-5 h-5 text-success" />}
-              <span className="text-sm text-muted-foreground">
-                {filledFieldsCount} of {totalFields} fields completed
-              </span>
-            </div>
-          </div>
-          <div className="w-full bg-secondary rounded-full h-2">
-            <div
-              className="gradient-button h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(filledFieldsCount / totalFields) * 100}%` }}
-            />
-          </div>
-        </div>
+        {/* Floating Progress Indicator */}
+        <FloatingProgress current={filledFieldsCount} total={totalFields} />
 
         {/* Main Content - Two Panel Layout */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -87,11 +88,11 @@ const Index = () => {
                 Enter Details
               </h2>
             </div>
-            
+
             <ProposalForm data={proposalData} onChange={setProposalData} />
 
             {/* Export Button - Mobile View */}
-            <div className="xl:hidden">
+            <div className="xl:hidden space-y-3">
               <Button
                 onClick={handleExportPdf}
                 disabled={!isFormComplete}
@@ -100,6 +101,34 @@ const Index = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download Proposal as PDF
               </Button>
+
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-destructive hover:text-destructive hover:bg-destructive/10"
+                    disabled={filledFieldsCount === 0}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Clear Form
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will remove all data you have entered. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleClearForm} className="bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+                      Clear Form
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
               {!isFormComplete && (
                 <p className="text-center text-sm text-muted-foreground mt-2">
                   Complete all fields to enable PDF export
@@ -115,9 +144,37 @@ const Index = () => {
                 <FileText className="w-5 h-5 text-primary" />
                 Live Preview
               </h2>
-              
-              {/* Export Button - Desktop View */}
-              <div className="hidden xl:block">
+
+              {/* Action Buttons - Desktop View */}
+              <div className="hidden xl:flex items-center gap-2">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                      disabled={filledFieldsCount === 0}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Clear
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will remove all data you have entered. This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleClearForm} className="bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+                        Clear Form
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
                 <Button
                   onClick={handleExportPdf}
                   disabled={!isFormComplete}
@@ -135,7 +192,7 @@ const Index = () => {
                 <ProposalPreview ref={previewRef} data={proposalData} />
               </div>
             </div>
-            
+
             {!isFormComplete && (
               <div className="hidden xl:block text-center text-sm text-muted-foreground">
                 Complete all fields to enable PDF export
