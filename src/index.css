@@ -17,7 +17,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 15%;
 
-    --primary: 217 91% 40%;
+    --primary: 272 71% 47%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96%;
@@ -26,37 +26,37 @@
     --muted: 210 30% 95%;
     --muted-foreground: 220 10% 50%;
 
-    --accent: 217 91% 95%;
-    --accent-foreground: 217 91% 35%;
+    --accent: 272 71% 95%;
+    --accent-foreground: 272 71% 35%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 214 20% 88%;
     --input: 214 20% 88%;
-    --ring: 217 91% 55%;
+    --ring: 272 71% 55%;
 
     --radius: 0.5rem;
 
     /* Custom tokens for proposal app */
-    --brand-blue: 217 91% 40%;
-    --brand-blue-light: 217 91% 55%;
-    --brand-navy: 220 60% 20%;
+    --brand-blue: 272 71% 47%;
+    --brand-blue-light: 272 71% 55%;
+    --brand-navy: 272 60% 20%;
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
-    
+
     /* Proposal preview tokens */
     --proposal-bg: 0 0% 100%;
-    --proposal-header: 217 91% 35%;
-    --proposal-table-header: 217 91% 45%;
-    --proposal-table-border: 220 15% 85%;
-    --proposal-text: 220 20% 20%;
-    --proposal-muted: 220 10% 45%;
+    --proposal-header: 272 71% 35%;
+    --proposal-table-header: 272 71% 45%;
+    --proposal-table-border: 272 15% 85%;
+    --proposal-text: 272 20% 20%;
+    --proposal-muted: 272 10% 45%;
 
     /* Gradients */
-    --gradient-header: linear-gradient(135deg, hsl(217 91% 35%), hsl(220 60% 25%));
-    --gradient-button: linear-gradient(135deg, hsl(217 91% 45%), hsl(217 91% 35%));
-    --gradient-button-hover: linear-gradient(135deg, hsl(217 91% 50%), hsl(217 91% 40%));
+    --gradient-header: linear-gradient(135deg, hsl(272 71% 35%), hsl(272 60% 25%));
+    --gradient-button: linear-gradient(135deg, hsl(272 71% 45%), hsl(272 71% 35%));
+    --gradient-button-hover: linear-gradient(135deg, hsl(272 71% 50%), hsl(272 71% 40%));
 
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 hsl(220 20% 15% / 0.05);
@@ -72,38 +72,38 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 272 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222 47% 8%;
+    --background: 272 47% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 11%;
+    --card: 272 47% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 272 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 55%;
+    --primary: 272 71% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 30% 18%;
+    --secondary: 272 30% 18%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 30% 18%;
+    --muted: 272 30% 18%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 217 30% 18%;
+    --accent: 272 30% 18%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 30% 22%;
-    --input: 217 30% 22%;
-    --ring: 212 26% 83%;
-    
+    --border: 272 30% 22%;
+    --input: 272 30% 22%;
+    --ring: 272 26% 83%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -111,7 +111,7 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 272 91.2% 59.8%;
   }
 }
 
@@ -124,8 +124,13 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 600;
   }
@@ -135,20 +140,20 @@
   .form-section {
     @apply bg-card rounded-lg border border-border p-6 shadow-sm;
   }
-  
+
   .proposal-paper {
     @apply bg-white shadow-lg;
     box-shadow: var(--shadow-paper);
   }
-  
+
   .gradient-header {
     background: var(--gradient-header);
   }
-  
+
   .gradient-button {
     background: var(--gradient-button);
   }
-  
+
   .gradient-button:hover {
     background: var(--gradient-button-hover);
   }
@@ -158,7 +163,7 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   /* A4 Paper dimensions for preview */
   .a4-paper {
     width: 210mm;
@@ -166,7 +171,7 @@
     padding: 20mm;
     background: white;
   }
-  
+
   @media screen {
     .a4-paper {
       width: 100%;
