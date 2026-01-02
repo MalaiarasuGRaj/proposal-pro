@@ -1,3 +1,4 @@
+// Proposal Generator App
 import { useState, useRef, useMemo } from "react";
 import { Header } from "@/components/Header";
 import { ProposalForm } from "@/components/ProposalForm";
