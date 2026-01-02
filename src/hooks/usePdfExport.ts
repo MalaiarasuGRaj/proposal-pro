@@ -9,23 +9,12 @@ export function usePdfExport() {
       if (!element) return;
 
       try {
-        // Generate canvas from the element
-        const canvas = await html2canvas(element, {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          backgroundColor: "#ffffff",
-        });
-
-        const imgData = canvas.toDataURL("image/png");
+        // Find all pdf-page sections
+        const pages = element.querySelectorAll('.pdf-page');
         
         // A4 dimensions in mm
         const pdfWidth = 210;
         const pdfHeight = 297;
-        
-        // Calculate dimensions to maintain aspect ratio
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
         
         // Create PDF
         const pdf = new jsPDF({
@@ -34,21 +23,32 @@ export function usePdfExport() {
           format: "a4",
         });
 
-        let heightLeft = imgHeight;
-        let position = 0;
-        let page = 1;
+        // Render each page section separately
+        for (let i = 0; i < pages.length; i++) {
+          const pageElement = pages[i] as HTMLElement;
+          
+          // Generate canvas for this page section
+          const canvas = await html2canvas(pageElement, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: "#ffffff",
+          });
 
-        // Add first page
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        // Add additional pages if content exceeds one page
-        while (heightLeft > 0) {
-          position = -(pdfHeight * page);
-          pdf.addPage();
-          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-          heightLeft -= pdfHeight;
-          page++;
+          const imgData = canvas.toDataURL("image/png");
+          
+          // Calculate dimensions to fit A4
+          const imgWidth = pdfWidth;
+          const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+          
+          // Add new page for pages after the first
+          if (i > 0) {
+            pdf.addPage();
+          }
+          
+          // Add image centered vertically if shorter than page
+          const yPosition = imgHeight < pdfHeight ? 0 : 0;
+          pdf.addImage(imgData, "PNG", 0, yPosition, imgWidth, imgHeight);
         }
 
         // Generate filename
