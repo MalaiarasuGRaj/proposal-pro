@@ -15,8 +15,8 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
 
     return (
       <div ref={ref} className="proposal-paper bg-white">
-        {/* Page 1 - Cover Page */}
-        <div className="min-h-[800px] flex flex-col p-8">
+        {/* Page 1 - Cover Page with College Details */}
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
           {/* Presented To / By Table */}
           <div className="my-6">
             <table className="w-full border-collapse">
@@ -121,11 +121,11 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
           </div>
         </div>
 
-        {/* Page Break */}
-        <div className="border-t-4 border-dashed border-proposal-table-border my-4"></div>
+        {/* Visual Page Break for Preview */}
+        <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
 
         {/* Page 2 - Fee Structure */}
-        <div className="min-h-[400px] flex flex-col p-8">
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
           <h2 className="text-2xl font-bold text-proposal-header mb-8 text-center">
             Fee Structure
           </h2>
@@ -157,11 +157,11 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
           </div>
         </div>
 
-        {/* Page Break */}
-        <div className="border-t-4 border-dashed border-proposal-table-border my-4"></div>
+        {/* Visual Page Break for Preview */}
+        <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
 
         {/* Page 3 - Terms & Conditions */}
-        <div className="min-h-[600px] flex flex-col p-8">
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakInside: 'avoid' }}>
           <h2 className="text-2xl font-bold text-proposal-header mb-6">
             Terms & Conditions:
           </h2>
