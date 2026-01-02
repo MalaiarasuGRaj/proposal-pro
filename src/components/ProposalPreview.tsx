@@ -36,7 +36,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
                     {getValue(data.collegeName, "COLLEGE_NAME")}
                   </td>
                   <td className="border border-proposal-table-border py-3 px-4 text-proposal-text">
-                    Connect Training Solutions (P) Ltd
+                    CONNECT Training Solutions
                   </td>
                 </tr>
               </tbody>
@@ -116,7 +116,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
           </div>
 
           {/* Footer */}
-          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border">
+          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border" data-html2canvas-ignore="true">
             CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961
           </div>
         </div>
@@ -152,7 +152,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
           </div>
 
           {/* Footer */}
-          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border">
+          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border" data-html2canvas-ignore="true">
             CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961
           </div>
         </div>
@@ -162,25 +162,32 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
 
         {/* Page 3 - Terms & Conditions */}
         <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakInside: 'avoid' }}>
-          <h2 className="text-2xl font-bold text-proposal-header mb-6">
+          <h2 className="text-lg font-bold text-proposal-header mb-6">
             Terms & Conditions:
           </h2>
 
-          <ol className="list-decimal list-outside ml-5 space-y-3 text-sm text-proposal-text flex-grow">
-            <li>This proposal is valid for a period of 30 days from the date of issue unless stated otherwise.</li>
-            <li>The scope of training, duration, and deliverables will be finalized based on mutual agreement and documented in writing.</li>
-            <li>Any modifications to the agreed scope may result in changes to the commercial terms and timelines.</li>
-            <li>Payment terms, including advance and balance payment schedules, will be communicated separately and must be adhered to as agreed.</li>
-            <li>Training schedules are subject to trainer availability and confirmation from the client.</li>
-            <li>Connect Training Solutions (P) Ltd. reserves the right to reschedule training sessions due to unforeseen circumstances, with prior notice to the client.</li>
-            <li>All training materials, content, and methodologies provided remain the intellectual property of Connect Training Solutions (P) Ltd. and may not be reproduced or distributed without written consent.</li>
-            <li>The client is responsible for ensuring participant availability, infrastructure, and necessary arrangements required for the training program.</li>
-            <li>Cancellation or postponement requests must be communicated in advance and may be subject to applicable charges.</li>
-            <li>This proposal is confidential and intended solely for the addressed organization. It should not be shared with third parties without prior approval.</li>
-          </ol>
+          <div className="space-y-3 text-xs text-proposal-text">
+            {[
+              "This proposal is valid for a period of 30 days from the date of issue unless stated otherwise.",
+              "The scope of training, duration, and deliverables will be finalized based on mutual agreement and documented in writing.",
+              "Any modifications to the agreed scope may result in changes to the commercial terms and timelines.",
+              "Payment terms, including advance and balance payment schedules, will be communicated separately and must be adhered to as agreed.",
+              "Training schedules are subject to trainer availability and confirmation from the client.",
+              "Connect Training Solutions (P) Ltd. reserves the right to reschedule training sessions due to unforeseen circumstances, with prior notice to the client.",
+              "All training materials, content, and methodologies provided remain the intellectual property of Connect Training Solutions (P) Ltd. and may not be reproduced or distributed without written consent.",
+              "The client is responsible for ensuring participant availability, infrastructure, and necessary arrangements required for the training program.",
+              "Cancellation or postponement requests must be communicated in advance and may be subject to applicable charges.",
+              "This proposal is confidential and intended solely for the addressed organization. It should not be shared with third parties without prior approval."
+            ].map((term, index) => (
+              <div key={index} className="flex gap-3 items-start">
+                <span className="font-medium shrink-0 w-6">{index + 1}.</span>
+                <span className="flex-1">{term}</span>
+              </div>
+            ))}
+          </div>
 
           {/* Connect with CONNECT section */}
-          <div className="mt-8 pt-6 border-t border-proposal-table-border">
+          <div className="mt-4 pt-4 border-t border-proposal-table-border">
             <h3 className="text-lg font-bold text-proposal-header mb-4 text-center">
               Connect with CONNECT:
             </h3>
@@ -199,7 +206,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
           </div>
 
           {/* Footer */}
-          <div className="text-center text-xs text-proposal-muted pt-4 mt-4 border-t border-proposal-table-border">
+          <div className="text-center text-xs text-proposal-muted pt-4 mt-auto border-t border-proposal-table-border" data-html2canvas-ignore="true">
             CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { FileText, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export function Header() {
   return (
@@ -6,9 +6,11 @@ export function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg gradient-header flex items-center justify-center">
-              <FileText className="w-5 h-5 text-white" />
-            </div>
+            <img
+              src="/Connect Logo.png"
+              alt="Connect Logo"
+              className="w-10 h-10 object-contain rounded-lg"
+            />
             <div>
               <h1 className="text-xl font-bold text-foreground">Proposal Generator</h1>
               <p className="text-xs text-muted-foreground">Connect Training Solutions</p>
