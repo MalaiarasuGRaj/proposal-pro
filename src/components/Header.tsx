@@ -12,8 +12,8 @@ export function Header() {
               className="w-10 h-10 object-contain rounded-lg"
             />
             <div>
-              <h1 className="text-xl font-bold text-foreground">Proposal Generator</h1>
-              <p className="text-xs text-muted-foreground">Connect Training Solutions</p>
+              <h1 className="text-xl font-bold text-foreground">Connect Training Solutions</h1>
+              <p className="text-xs text-muted-foreground">Proposal Management System</p>
             </div>
           </div>
           <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">

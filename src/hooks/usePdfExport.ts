@@ -51,18 +51,26 @@ export function usePdfExport() {
           pdf.addImage(imgData, "PNG", 0, yPosition, imgWidth, imgHeight);
 
           // Add Footer
+          // Add Footer (mimicking the preview validation)
+          const footerY = 285; // Base Y position
+
+          // Draw Border Line (border-proposal-table-border: 220 15% 85% -> RGB: 210, 213, 219)
+          pdf.setDrawColor(210, 213, 219);
+          pdf.setLineWidth(0.1);
+          // p-8 padding is approx 8.5mm. Width is 210mm.
+          // Line should span from 8.5mm to 201.5mm
+          pdf.line(8.5, footerY - 5, 201.5, footerY - 5);
+
+          // Draw Text (text-xs, text-proposal-muted: 220 10% 45% -> RGB: 103, 111, 126)
           pdf.setFontSize(8);
-          // 400 is normal weight, 500 is medium. We want a muted look so we can use gray color.
-          pdf.setTextColor(150);
+          pdf.setTextColor(103, 111, 126);
+
           const footerText = "CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961";
-          // Calculate center position
           const pageWidth = pdf.internal.pageSize.getWidth();
           const textWidth = pdf.getTextWidth(footerText);
           const x = (pageWidth - textWidth) / 2;
-          // Position at the bottom (297mm height - 10mm margin)
-          const y = 287;
 
-          pdf.text(footerText, x, y);
+          pdf.text(footerText, x, footerY);
         }
 
         // Generate filename

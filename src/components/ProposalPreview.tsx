@@ -13,10 +13,21 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
       return value || `{{${placeholder}}}`;
     };
 
+    const Watermark = () => (
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+        <img
+          src="/Connect Logo.png"
+          alt=""
+          className="w-[80%] max-w-[500px] object-contain opacity-[0.08]"
+        />
+      </div>
+    );
+
     return (
       <div ref={ref} className="proposal-paper bg-white">
         {/* Page 1 - Cover Page with College Details */}
-        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
+          <Watermark />
           {/* Presented To / By Table */}
           <div className="my-6">
             <table className="w-full border-collapse">
@@ -125,7 +136,8 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
         <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
 
         {/* Page 2 - Fee Structure */}
-        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
+          <Watermark />
           <h2 className="text-2xl font-bold text-proposal-header mb-8 text-center">
             Fee Structure
           </h2>
@@ -161,7 +173,8 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
         <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
 
         {/* Page 3 - Terms & Conditions */}
-        <div className="pdf-page min-h-[1000px] flex flex-col p-8" style={{ pageBreakInside: 'avoid' }}>
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakInside: 'avoid' }}>
+          <Watermark />
           <h2 className="text-lg font-bold text-proposal-header mb-6">
             Terms & Conditions:
           </h2>
