@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/clerk-react";
 import { Sparkles } from "lucide-react";
 
 export function Header() {
@@ -16,9 +17,12 @@ export function Header() {
               <p className="text-xs text-muted-foreground">Proposal Management System</p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span>Auto-generate professional proposals</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span>Auto-generate professional proposals</span>
+            </div>
+            <UserButton afterSignOutUrl="/" />
           </div>
         </div>
       </div>
