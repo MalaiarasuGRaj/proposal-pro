@@ -6,9 +6,10 @@ import { ProposalPreview } from "@/components/ProposalPreview";
 import { usePdfExport } from "@/hooks/usePdfExport";
 import { ProposalData, initialProposalData } from "@/types/proposal";
 import { Button } from "@/components/ui/button";
-import { Download, Eye, FileText, Trash2 } from "lucide-react";
+import { Download, Eye, FileText, Trash2, FolderOpen } from "lucide-react";
 import { FloatingProgress } from "@/components/FloatingProgress";
 import { useToast } from "@/hooks/use-toast";
+import { useProposalHistory } from "@/hooks/useProposalHistory";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +27,7 @@ const Index = () => {
   const previewRef = useRef<HTMLDivElement>(null);
   const { exportToPdf } = usePdfExport();
   const { toast } = useToast();
+  const { saveProposal } = useProposalHistory();
 
   const isFormComplete = useMemo(() => {
     return Object.values(proposalData).every((value) => value.trim() !== "");
@@ -49,9 +51,10 @@ const Index = () => {
 
     try {
       await exportToPdf(previewRef.current, proposalData);
+      saveProposal(proposalData);
       toast({
         title: "PDF Generated!",
-        description: "Your proposal has been downloaded successfully.",
+        description: "Your proposal has been downloaded and saved to repository.",
       });
     } catch {
       toast({
@@ -174,6 +177,15 @@ const Index = () => {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
+
+                <Button
+                  onClick={() => window.location.href = '/repository'}
+                  variant="outline"
+                  className="shadow-sm hover:shadow-md transition-all"
+                >
+                  <FolderOpen className="w-4 h-4 mr-2" />
+                  Repository
+                </Button>
 
                 <Button
                   onClick={handleExportPdf}
