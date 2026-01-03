@@ -208,12 +208,12 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
               <div className="text-center">
                 <p className="text-sm text-proposal-muted mb-2">WhatsApp Chat</p>
                 <img src={qrWhatsapp} alt="WhatsApp QR Code" className="w-24 h-24 mx-auto" />
-                <p className="text-xs text-proposal-muted mt-2">Scan to Chat</p>
+                <p className="text-xs text-proposal-muted mt-0">Scan to Chat</p>
               </div>
               <div className="text-center">
                 <p className="text-sm text-proposal-muted mb-2">Website</p>
                 <img src={qrWebsite} alt="Website QR Code" className="w-24 h-24 mx-auto" />
-                <p className="text-xs text-proposal-muted mt-2">Scan to visit website</p>
+                <p className="text-xs text-proposal-muted mt-0">Scan to visit website</p>
               </div>
             </div>
           </div>
