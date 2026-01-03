@@ -47,7 +47,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
                     {getValue(data.collegeName, "COLLEGE_NAME")}
                   </td>
                   <td className="border border-proposal-table-border py-3 px-4 text-proposal-text">
-                    CONNECT Training Solutions
+                    CONNECT Training Solutions (P) Ltd
                   </td>
                 </tr>
               </tbody>
