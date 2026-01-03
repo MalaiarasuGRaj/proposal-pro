@@ -45,7 +45,7 @@ export function usePdfExport() {
               windowWidth: 794, // Ensure media queries match desktop
             });
 
-            const imgData = canvas.toDataURL("image/png");
+            const imgData = canvas.toDataURL("image/jpeg", 0.8);
 
             // Calculate dimensions to fit A4
             const imgWidth = pdfWidth;
@@ -58,7 +58,7 @@ export function usePdfExport() {
 
             // Add image centered vertically if shorter than page
             const yPosition = imgHeight < pdfHeight ? 0 : 0;
-            pdf.addImage(imgData, "PNG", 0, yPosition, imgWidth, imgHeight);
+            pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, imgHeight);
 
             // Add Footer
             // Add Footer (mimicking the preview validation)

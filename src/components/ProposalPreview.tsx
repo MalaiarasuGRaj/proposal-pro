@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { ProposalData } from "@/types/proposal";
 import qrWhatsapp from "@/assets/qr-whatsapp.jpg";
 import qrWebsite from "@/assets/qr-website.jpg";
+import { PROGRAM_MODULES } from "@/data/modules";
 
 interface ProposalPreviewProps {
   data: ProposalData;
@@ -135,14 +136,74 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
         {/* Visual Page Break for Preview */}
         <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
 
-        {/* Page 2 - Fee Structure */}
+        {/* Page 2 - Modules Covered */}
         <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
           <Watermark />
+
+          <h2 className="text-2xl font-bold text-proposal-header mb-8 text-center mt-8">
+            Modules Covered
+          </h2>
+
+          <div className="flex-grow">
+            {data.programName && PROGRAM_MODULES[data.programName] ? (
+              <div className="space-y-4">
+                <p className="text-sm font-medium text-proposal-muted mb-6 text-center">
+                  Comprehensive curriculum for <span className="text-proposal-text font-bold">{data.programName}</span>
+                </p>
+                <div className="overflow-hidden border border-proposal-table-border rounded-lg">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="bg-secondary/30 text-proposal-muted py-3 px-4 text-left font-semibold border-b border-proposal-table-border w-16 text-center">
+                          #
+                        </th>
+                        <th className="bg-secondary/30 text-proposal-muted py-3 px-4 text-left font-semibold border-b border-proposal-table-border">
+                          Module Name
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {PROGRAM_MODULES[data.programName].map((module, idx) => (
+                        <tr key={idx} className="border-b border-proposal-table-border last:border-b-0">
+                          <td className="py-3 px-4 text-proposal-muted font-medium text-center border-r border-proposal-table-border">
+                            {idx + 1}
+                          </td>
+                          <td className="py-3 px-4 text-proposal-text font-medium">
+                            {module}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-proposal-muted italic">
+                {data.programName ? "No specific modules defined for this program." : "Please select a program to view modules."}
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border" data-html2canvas-ignore="true">
+            CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961
+          </div>
+        </div>
+
+        {/* Visual Page Break for Preview */}
+        <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
+
+
+
+        {/* Page 3 - Terms & Conditions */}
+        <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakInside: 'avoid' }}>
+          <Watermark />
+
           <h2 className="text-2xl font-bold text-proposal-header mb-8 text-center">
             Fee Structure
           </h2>
 
-          <div className="space-y-6 flex-grow">
+          <div className="space-y-6 mb-8">
             <div className="bg-secondary/30 rounded-lg p-6 border border-proposal-table-border">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-proposal-muted font-medium">Pricing Model:</span>
@@ -162,24 +223,11 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
               * All prices are subject to revision based on final training requirements and approvals.
             </p>
           </div>
-
-          {/* Footer */}
-          <div className="text-center text-xs text-proposal-muted pt-4 border-t border-proposal-table-border" data-html2canvas-ignore="true">
-            CONNECT Training Solutions (P) Ltd. | Tirunelveli - 627001 | Ph: +91 9600965961
-          </div>
-        </div>
-
-        {/* Visual Page Break for Preview */}
-        <div className="border-t-4 border-dashed border-proposal-table-border my-4 print:hidden"></div>
-
-        {/* Page 3 - Terms & Conditions */}
-        <div className="pdf-page min-h-[1000px] flex flex-col p-8 relative" style={{ pageBreakInside: 'avoid' }}>
-          <Watermark />
           <h2 className="text-lg font-bold text-proposal-header mb-6">
             Terms & Conditions:
           </h2>
 
-          <div className="space-y-3 text-xs text-proposal-text">
+          <div className="space-y-3 text-sm text-proposal-text">
             {[
               "This proposal is valid for a period of 30 days from the date of issue unless stated otherwise.",
               "The scope of training, duration, and deliverables will be finalized based on mutual agreement and documented in writing.",
@@ -188,9 +236,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
               "Training schedules are subject to trainer availability and confirmation from the client.",
               "Connect Training Solutions (P) Ltd. reserves the right to reschedule training sessions due to unforeseen circumstances, with prior notice to the client.",
               "All training materials, content, and methodologies provided remain the intellectual property of Connect Training Solutions (P) Ltd. and may not be reproduced or distributed without written consent.",
-              "The client is responsible for ensuring participant availability, infrastructure, and necessary arrangements required for the training program.",
-              "Cancellation or postponement requests must be communicated in advance and may be subject to applicable charges.",
-              "This proposal is confidential and intended solely for the addressed organization. It should not be shared with third parties without prior approval."
+              "The client is responsible for ensuring participant availability, infrastructure, and necessary arrangements required for the training program."
             ].map((term, index) => (
               <div key={index} className="flex gap-3 items-start">
                 <span className="font-medium shrink-0 w-6">{index + 1}.</span>
