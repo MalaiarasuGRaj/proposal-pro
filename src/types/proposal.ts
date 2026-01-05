@@ -8,14 +8,23 @@ export interface ProposalData {
   batch: string;
   trainingDays: string;
   pricingModel: string;
+  numberOfBatches: string;
+  numberOfStudents: string;
   price: string;
 }
 
 export const PROGRAM_OPTIONS = [
-  "Data Science",
-  "AI & Machine Learning",
-  "Generative AI",
-  "Full Stack Development",
+  "Aptitude (Foundation)",
+  "Aptitude (Advanced)",
+  "Company-Specific Training",
+  "Interview Skills",
+  "Java Training",
+  "Python Training",
+  "Full Stack (Java)",
+  "Full Stack (Python)",
+  "Soft Skill Training",
+  "Mock Interview",
+  "Campus Recruitment Training (CRT)",
 ] as const;
 
 export const PRICING_MODEL_OPTIONS = [
@@ -33,5 +42,7 @@ export const initialProposalData: ProposalData = {
   batch: "",
   trainingDays: "",
   pricingModel: "",
+  numberOfBatches: "",
+  numberOfStudents: "",
   price: "",
 };
