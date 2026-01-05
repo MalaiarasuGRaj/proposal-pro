@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Building2, MapPin, User, Phone, Mail, BookOpen, GraduationCap, Calendar, IndianRupee, Tag } from "lucide-react";
+import { Building2, MapPin, User, Users, Phone, Mail, BookOpen, GraduationCap, Calendar, IndianRupee, Tag } from "lucide-react";
 
 interface ProposalFormProps {
   data: ProposalData;
@@ -36,7 +36,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
               className="transition-all focus:ring-2 focus:ring-primary/20"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="location" className="text-sm font-medium flex items-center gap-2">
               <MapPin className="w-4 h-4 text-muted-foreground" />
@@ -70,7 +70,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
               onChange={(e) => updateField("contactPerson", e.target.value)}
             />
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="mobileNumber" className="text-sm font-medium flex items-center gap-2">
@@ -85,7 +85,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
                 onChange={(e) => updateField("mobileNumber", e.target.value)}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="emailId" className="text-sm font-medium flex items-center gap-2">
                 <Mail className="w-4 h-4 text-muted-foreground" />
@@ -127,7 +127,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="batch" className="text-sm font-medium flex items-center gap-2">
@@ -141,7 +141,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
                 onChange={(e) => updateField("batch", e.target.value)}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="trainingDays" className="text-sm font-medium flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -185,7 +185,40 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
               ))}
             </RadioGroup>
           </div>
-          
+
+          {data.pricingModel === "Cost per Trainer per Day" && (
+            <div className="space-y-2">
+              <Label htmlFor="numberOfBatches" className="text-sm font-medium flex items-center gap-2">
+                <Users className="w-4 h-4 text-muted-foreground" />
+                Number of Batches <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="numberOfBatches"
+                placeholder="e.g., 2"
+                value={data.numberOfBatches}
+                onChange={(e) => updateField("numberOfBatches", e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground italic">
+                Note: Below 60 students are considered as 1 batch
+              </p>
+            </div>
+          )}
+
+          {data.pricingModel === "Cost per Student" && (
+            <div className="space-y-2">
+              <Label htmlFor="numberOfStudents" className="text-sm font-medium flex items-center gap-2">
+                <Users className="w-4 h-4 text-muted-foreground" />
+                Number of Students <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="numberOfStudents"
+                placeholder="e.g., 100"
+                value={data.numberOfStudents}
+                onChange={(e) => updateField("numberOfStudents", e.target.value)}
+              />
+            </div>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="price" className="text-sm font-medium">
               Price (INR) <span className="text-destructive">*</span>

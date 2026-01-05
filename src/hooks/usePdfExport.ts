@@ -81,6 +81,28 @@ export function usePdfExport() {
             const x = (pageWidth - textWidth) / 2;
 
             pdf.text(footerText, x, footerY);
+
+            // Add Links (specifically for WhatsApp)
+            const links = pageElement.querySelectorAll('[data-pdf-link]');
+            links.forEach((link) => {
+              const rect = link.getBoundingClientRect();
+              const pageRect = pageElement.getBoundingClientRect(); // Dimensions of the cloned page in DOM
+
+              // Calculate relative position and scale to PDF dimensions
+              // PDF Width = 210mm
+              // Scale factor = 210 / pageElement.offsetWidth
+              const scaleFactor = pdfWidth / pageElement.offsetWidth;
+
+              const linkX = (rect.left - pageRect.left) * scaleFactor;
+              const linkY = (rect.top - pageRect.top) * scaleFactor;
+              const linkW = rect.width * scaleFactor;
+              const linkH = rect.height * scaleFactor;
+
+              const url = link.getAttribute('href');
+              if (url) {
+                pdf.link(linkX, linkY, linkW, linkH, { url });
+              }
+            });
           }
 
           // Generate filename
