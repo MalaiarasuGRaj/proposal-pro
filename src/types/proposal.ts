@@ -29,7 +29,7 @@ export const PROGRAM_OPTIONS = [
 
 export const PRICING_MODEL_OPTIONS = [
   "Cost per Trainer per Day",
-  "Cost per Student",
+  "Cost per Student per Day",
 ] as const;
 
 export const initialProposalData: ProposalData = {

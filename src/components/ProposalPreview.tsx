@@ -33,7 +33,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
 
       if (data.pricingModel === "Cost per Trainer per Day") {
         return price * days * batches;
-      } else if (data.pricingModel === "Cost per Student") {
+      } else if (data.pricingModel === "Cost per Student per Day") {
         return price * days * students;
       }
       return 0;
@@ -257,7 +257,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
                   </span>
                 </div>
               )}
-              {data.pricingModel === "Cost per Student" && (
+              {data.pricingModel === "Cost per Student per Day" && (
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-proposal-muted font-medium">Number of Students:</span>
                   <span className="text-proposal-text font-semibold text-lg text-right">
@@ -299,7 +299,7 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
               "The scope of training, duration, and deliverables will be finalized based on mutual agreement and documented in writing via e-mail.",
               "50% of the total training fee shall be paid in advance to confirm the training schedule.",
               "The remaining 50% shall be paid on the final day of training / upon completion of the project.",
-              "Payments not received within 30 days from the invoice date will attract a late payment charge of 2% per month or part thereof, calculated on a pro-rata per day basis, until the outstanding amount is settled.",
+              "Payments not received within 30 days from the invoice date will attract a late payment charge of 2% per month or part thereof, calculated on a pro-rata per Day basis, until the outstanding amount is settled.",
               "Food and accommodation for the trainer(s), wherever applicable, shall be arranged and borne by the college / institution.",
               "All applicable taxes (including GST, if any) shall be charged extra as per Government of India norms."
             ].map((term, index) => (

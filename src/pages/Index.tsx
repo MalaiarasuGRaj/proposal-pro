@@ -1,5 +1,5 @@
 // Proposal Generator App
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { ProposalForm } from "@/components/ProposalForm";
 import { ProposalPreview } from "@/components/ProposalPreview";
@@ -27,14 +27,16 @@ const Index = () => {
   const previewRef = useRef<HTMLDivElement>(null);
   const { exportToPdf } = usePdfExport();
   const { toast } = useToast();
-  const { saveProposal, proposalCount, incrementProposalCount } = useProposalHistory();
-  // removed sessionProposalCount state
+  const { saveProposal, proposalCount, loading: historyLoading } = useProposalHistory();
+  const [generatedProposalNumber, setGeneratedProposalNumber] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const proposalNumber = useMemo(() => {
+    if (generatedProposalNumber) return generatedProposalNumber;
     const year = new Date().getFullYear();
-    const count = proposalCount.toString().padStart(3, '0');
+    const count = (proposalCount + 1).toString().padStart(3, '0');
     return `CTS/${year}/${count}`;
-  }, [proposalCount]);
+  }, [proposalCount, generatedProposalNumber]);
 
   const isFormComplete = useMemo(() => {
     const { pricingModel, numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
@@ -46,7 +48,7 @@ const Index = () => {
       return commonFieldsFilled && numberOfBatches.trim() !== "";
     }
 
-    if (pricingModel === "Cost per Student") {
+    if (pricingModel === "Cost per Student per Day") {
       return commonFieldsFilled && numberOfStudents.trim() !== "";
     }
 
@@ -59,7 +61,7 @@ const Index = () => {
 
     if (proposalData.pricingModel === "Cost per Trainer per Day" && numberOfBatches.trim() !== "") {
       count++;
-    } else if (proposalData.pricingModel === "Cost per Student" && numberOfStudents.trim() !== "") {
+    } else if (proposalData.pricingModel === "Cost per Student per Day" && numberOfStudents.trim() !== "") {
       count++;
     } else if (proposalData.pricingModel) {
       // If pricing model is selected but conditional field is not filled, we don't count the conditional field
@@ -77,31 +79,59 @@ const Index = () => {
   }, []);
 
   const handleExportPdf = async () => {
-    if (!isFormComplete) {
-      toast({
-        title: "Incomplete Form",
-        description: "Please fill in all required fields before exporting.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!isFormComplete || isGenerating) return;
 
+    setIsGenerating(true);
+
+    // 1. Save to DB and get the confirmed Proposal Number
     try {
-      await exportToPdf(previewRef.current, proposalData);
-      saveProposal(proposalData);
-      incrementProposalCount();
-      toast({
-        title: "PDF Generated!",
-        description: `Proposal ${proposalNumber} has been downloaded and saved to repository.`,
-      });
+      const confirmedNumber = await saveProposal(proposalData);
+      if (confirmedNumber) {
+        setGeneratedProposalNumber(confirmedNumber);
+        // The useEffect below will trigger the export once the number is rendered
+      } else {
+        throw new Error("Failed to generate proposal number");
+      }
     } catch {
       toast({
-        title: "Export Failed",
-        description: "There was an error generating the PDF. Please try again.",
+        title: "Error",
+        description: "Failed to generate proposal number. Please check your connection.",
         variant: "destructive",
       });
+      setIsGenerating(false);
     }
   };
+
+  // Effect to trigger export when generatedProposalNumber is set
+  useEffect(() => {
+    const performExport = async () => {
+      if (generatedProposalNumber) {
+        try {
+          // Allow a brief moment for the DOM to update with the new number
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          await exportToPdf(previewRef.current, proposalData);
+
+          toast({
+            title: "PDF Generated!",
+            description: `Proposal ${generatedProposalNumber} has been downloaded and saved to repository.`,
+          });
+        } catch {
+          toast({
+            title: "Export Failed",
+            description: "There was an error generating the PDF. Please try again.",
+            variant: "destructive",
+          });
+        } finally {
+          setIsGenerating(false);
+          // Reset not strictly necessary as next download will overwrite, but good for cleanup
+          // setGeneratedProposalNumber(null); 
+        }
+      }
+    };
+
+    performExport();
+  }, [generatedProposalNumber, exportToPdf, proposalData, toast]);
 
   const handleClearForm = () => {
     setProposalData(initialProposalData);
@@ -136,11 +166,19 @@ const Index = () => {
             <div className="xl:hidden space-y-3">
               <Button
                 onClick={handleExportPdf}
-                disabled={!isFormComplete}
+                disabled={!isFormComplete || isGenerating}
                 className="w-full gradient-button text-white py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Download className="w-5 h-5 mr-2" />
-                Download Proposal as PDF
+                {isGenerating ? (
+                  <span className="flex items-center justify-center">
+                    <span className="animate-spin mr-2">⏳</span> Generating...
+                  </span>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 mr-2" />
+                    Download Proposal as PDF
+                  </>
+                )}
               </Button>
 
               <AlertDialog>
@@ -227,11 +265,19 @@ const Index = () => {
 
                 <Button
                   onClick={handleExportPdf}
-                  disabled={!isFormComplete}
+                  disabled={!isFormComplete || isGenerating}
                   className="gradient-button text-white font-semibold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download PDF
+                  {isGenerating ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2">⏳</span> Generating...
+                    </span>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 mr-2" />
+                      Download PDF
+                    </>
+                  )}
                 </Button>
               </div>
             </div>

@@ -204,7 +204,7 @@ export function ProposalForm({ data, onChange }: ProposalFormProps) {
             </div>
           )}
 
-          {data.pricingModel === "Cost per Student" && (
+          {data.pricingModel === "Cost per Student per Day" && (
             <div className="space-y-2">
               <Label htmlFor="numberOfStudents" className="text-sm font-medium flex items-center gap-2">
                 <Users className="w-4 h-4 text-muted-foreground" />

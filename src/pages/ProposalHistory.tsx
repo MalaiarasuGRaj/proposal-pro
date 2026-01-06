@@ -46,20 +46,25 @@ const ProposalHistory = () => {
 
     // Get unique years from history
     const availableYears = useMemo(() => {
-        const years = new Set(history.map(p => new Date(p.timestamp).getFullYear()));
+        const years = new Set(history.map(p => new Date(p.created_at).getFullYear()));
         return Array.from(years).sort((a, b) => b - a);
     }, [history]);
 
     const filteredProposals = useMemo(() => {
         return history.filter((proposal) => {
-            const date = new Date(proposal.timestamp);
-            const matchesSearch = proposal.data.collegeName.toLowerCase().includes(searchTerm.toLowerCase());
+            const date = new Date(proposal.created_at);
+            const matchesSearch =
+                proposal.data.collegeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                proposal.proposal_number?.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesMonth = selectedMonth === "all" || date.getMonth().toString() === selectedMonth;
             const matchesYear = selectedYear === "all" || date.getFullYear().toString() === selectedYear;
             const matchesProgram = selectedProgram === "all" || proposal.data.programName === selectedProgram;
 
             return matchesSearch && matchesMonth && matchesYear && matchesProgram;
         }).sort((a, b) => {
+            const dateA = new Date(a.created_at).getTime();
+            const dateB = new Date(b.created_at).getTime();
+
             switch (sortOrder) {
                 case "name-asc":
                     return a.data.collegeName.localeCompare(b.data.collegeName);
@@ -70,10 +75,10 @@ const ProposalHistory = () => {
                 case "program-desc":
                     return b.data.programName.localeCompare(a.data.programName);
                 case "date-asc":
-                    return a.timestamp - b.timestamp;
+                    return dateA - dateB;
                 case "date-desc":
                 default:
-                    return b.timestamp - a.timestamp;
+                    return dateB - dateA;
             }
         });
     }, [history, searchTerm, selectedMonth, selectedYear, selectedProgram, sortOrder]);
@@ -134,7 +139,7 @@ const ProposalHistory = () => {
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <Input
-                            placeholder="Search by college name..."
+                            placeholder="Search by college or proposal no..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="pl-9"
@@ -252,9 +257,14 @@ const ProposalHistory = () => {
                                     <div className="p-2 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
                                         <FileText className="w-6 h-6 text-primary" />
                                     </div>
-                                    <span className="text-xs font-medium px-2 py-1 bg-secondary rounded-full text-secondary-foreground">
-                                        {format(proposal.timestamp, "MMM d, yyyy")}
-                                    </span>
+                                    <div className="flex flex-col items-end">
+                                        <span className="text-xs font-medium px-2 py-1 bg-secondary rounded-full text-secondary-foreground mb-1">
+                                            {format(new Date(proposal.created_at), "MMM d, yyyy")}
+                                        </span>
+                                        <span className="text-[10px] text-muted-foreground font-mono">
+                                            {proposal.proposal_number}
+                                        </span>
+                                    </div>
                                 </div>
 
 
@@ -267,7 +277,7 @@ const ProposalHistory = () => {
 
                                 <div className="mt-auto pt-4 border-t border-border flex items-center justify-between text-sm">
                                     <div className="flex flex-col text-xs text-muted-foreground">
-                                        <span>{format(proposal.timestamp, "h:mm a")}</span>
+                                        <span>{format(new Date(proposal.created_at), "h:mm a")}</span>
                                     </div>
                                     <div className="flex gap-2">
                                         <AlertDialog>
@@ -337,7 +347,7 @@ const ProposalHistory = () => {
             {/* Hidden Preview for PDF Generation */}
             <div className="fixed left-[-9999px] top-0">
                 <div ref={hiddenPreviewRef} className="w-[800px]">
-                    {previewData && <ProposalPreview data={previewData.data} />}
+                    {previewData && <ProposalPreview data={previewData.data} proposalNumber={previewData.proposal_number} />}
                 </div>
             </div>
         </div>
