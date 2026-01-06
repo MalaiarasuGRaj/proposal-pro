@@ -28,6 +28,13 @@ const Index = () => {
   const { exportToPdf } = usePdfExport();
   const { toast } = useToast();
   const { saveProposal } = useProposalHistory();
+  const [sessionProposalCount, setSessionProposalCount] = useState(1);
+
+  const proposalNumber = useMemo(() => {
+    const year = new Date().getFullYear();
+    const count = sessionProposalCount.toString().padStart(3, '0');
+    return `CTS/${year}/${count}`;
+  }, [sessionProposalCount]);
 
   const isFormComplete = useMemo(() => {
     const { pricingModel, numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
@@ -82,9 +89,10 @@ const Index = () => {
     try {
       await exportToPdf(previewRef.current, proposalData);
       saveProposal(proposalData);
+      setSessionProposalCount(prev => prev + 1);
       toast({
         title: "PDF Generated!",
-        description: "Your proposal has been downloaded and saved to repository.",
+        description: `Proposal ${proposalNumber} has been downloaded and saved to repository.`,
       });
     } catch {
       toast({
@@ -231,7 +239,7 @@ const Index = () => {
             {/* Preview Container */}
             <div className="bg-muted rounded-lg p-4 overflow-auto max-h-[calc(100vh-300px)] xl:max-h-[calc(100vh-200px)]">
               <div className="mx-auto rounded-lg overflow-hidden shadow-paper">
-                <ProposalPreview ref={previewRef} data={proposalData} />
+                <ProposalPreview ref={previewRef} data={proposalData} proposalNumber={proposalNumber} />
               </div>
             </div>
 

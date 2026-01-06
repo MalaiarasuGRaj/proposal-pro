@@ -6,10 +6,11 @@ import { PROGRAM_MODULES } from "@/data/modules";
 
 interface ProposalPreviewProps {
   data: ProposalData;
+  proposalNumber?: string;
 }
 
 export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
-  ({ data }, ref) => {
+  ({ data, proposalNumber }, ref) => {
     const getValue = (value: string, placeholder: string) => {
       return value || `{{${placeholder}}}`;
     };
@@ -71,8 +72,15 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
             </table>
           </div>
 
-          <div className="text-right text-proposal-text font-medium text-sm mb-4">
-            <b>Date: </b> {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          <div className="text-right text-proposal-text font-medium text-sm mb-4 space-y-1">
+            <div>
+              <b>Date: </b> {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+            </div>
+            {proposalNumber && (
+              <div>
+                <b>Ref No: </b> {proposalNumber}
+              </div>
+            )}
           </div>
 
           {/* College Details Table */}
