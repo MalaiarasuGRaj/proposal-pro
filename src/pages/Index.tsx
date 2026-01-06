@@ -27,18 +27,18 @@ const Index = () => {
   const previewRef = useRef<HTMLDivElement>(null);
   const { exportToPdf } = usePdfExport();
   const { toast } = useToast();
-  const { saveProposal } = useProposalHistory();
-  const [sessionProposalCount, setSessionProposalCount] = useState(1);
+  const { saveProposal, proposalCount, incrementProposalCount } = useProposalHistory();
+  // removed sessionProposalCount state
 
   const proposalNumber = useMemo(() => {
     const year = new Date().getFullYear();
-    const count = sessionProposalCount.toString().padStart(3, '0');
+    const count = proposalCount.toString().padStart(3, '0');
     return `CTS/${year}/${count}`;
-  }, [sessionProposalCount]);
+  }, [proposalCount]);
 
   const isFormComplete = useMemo(() => {
     const { pricingModel, numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
-    const commonFieldsFilled = Object.values(otherFields).every((value) => value.trim() !== "");
+    const commonFieldsFilled = Object.values(otherFields).every((value) => (value as string).trim() !== "");
 
     if (!pricingModel) return false;
 
@@ -55,7 +55,7 @@ const Index = () => {
 
   const filledFieldsCount = useMemo(() => {
     const { numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
-    let count = Object.values(otherFields).filter((value) => value.trim() !== "").length;
+    let count = Object.values(otherFields).filter((value) => (value as string).trim() !== "").length;
 
     if (proposalData.pricingModel === "Cost per Trainer per Day" && numberOfBatches.trim() !== "") {
       count++;
@@ -89,7 +89,7 @@ const Index = () => {
     try {
       await exportToPdf(previewRef.current, proposalData);
       saveProposal(proposalData);
-      setSessionProposalCount(prev => prev + 1);
+      incrementProposalCount();
       toast({
         title: "PDF Generated!",
         description: `Proposal ${proposalNumber} has been downloaded and saved to repository.`,

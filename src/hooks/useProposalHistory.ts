@@ -62,11 +62,52 @@ export function useProposalHistory() {
         }
     };
 
+    // Proposal Count Logic
+    const [proposalCount, setProposalCount] = useState(1);
+    const COUNT_STORAGE_KEY = "proposal_count";
+    const YEAR_STORAGE_KEY = "proposal_year";
+
+    useEffect(() => {
+        try {
+            const currentYear = new Date().getFullYear().toString();
+            const storedYear = localStorage.getItem(YEAR_STORAGE_KEY);
+            const storedCount = localStorage.getItem(COUNT_STORAGE_KEY);
+
+            if (storedYear !== currentYear) {
+                // New year, reset counter
+                setProposalCount(1);
+                localStorage.setItem(COUNT_STORAGE_KEY, "1");
+                localStorage.setItem(YEAR_STORAGE_KEY, currentYear);
+            } else if (storedCount) {
+                // Same year, load counter
+                setProposalCount(parseInt(storedCount, 10));
+            } else {
+                // Initial setup for current year
+                localStorage.setItem(YEAR_STORAGE_KEY, currentYear);
+                localStorage.setItem(COUNT_STORAGE_KEY, "1");
+            }
+        } catch (error) {
+            console.error("Failed to load proposal count:", error);
+        }
+    }, []);
+
+    const incrementProposalCount = () => {
+        try {
+            const newCount = proposalCount + 1;
+            setProposalCount(newCount);
+            localStorage.setItem(COUNT_STORAGE_KEY, newCount.toString());
+        } catch (error) {
+            console.error("Failed to save proposal count:", error);
+        }
+    };
+
     return {
         history,
         saveProposal,
         deleteProposal,
         clearHistory,
-        refreshHistory: loadHistory
+        refreshHistory: loadHistory,
+        proposalCount,
+        incrementProposalCount
     };
 }
