@@ -71,6 +71,10 @@ export const ProposalPreview = forwardRef<HTMLDivElement, ProposalPreviewProps>(
             </table>
           </div>
 
+          <div className="text-right text-proposal-text font-medium text-sm mb-4">
+            <b>Date: </b> {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          </div>
+
           {/* College Details Table */}
           <div className="my-6 flex-grow">
             <table className="w-full border-collapse">

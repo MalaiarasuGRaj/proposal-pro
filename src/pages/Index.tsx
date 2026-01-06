@@ -30,14 +30,44 @@ const Index = () => {
   const { saveProposal } = useProposalHistory();
 
   const isFormComplete = useMemo(() => {
-    return Object.values(proposalData).every((value) => value.trim() !== "");
+    const { pricingModel, numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
+    const commonFieldsFilled = Object.values(otherFields).every((value) => value.trim() !== "");
+
+    if (!pricingModel) return false;
+
+    if (pricingModel === "Cost per Trainer per Day") {
+      return commonFieldsFilled && numberOfBatches.trim() !== "";
+    }
+
+    if (pricingModel === "Cost per Student") {
+      return commonFieldsFilled && numberOfStudents.trim() !== "";
+    }
+
+    return false;
   }, [proposalData]);
 
   const filledFieldsCount = useMemo(() => {
-    return Object.values(proposalData).filter((value) => value.trim() !== "").length;
+    const { numberOfBatches, numberOfStudents, ...otherFields } = proposalData;
+    let count = Object.values(otherFields).filter((value) => value.trim() !== "").length;
+
+    if (proposalData.pricingModel === "Cost per Trainer per Day" && numberOfBatches.trim() !== "") {
+      count++;
+    } else if (proposalData.pricingModel === "Cost per Student" && numberOfStudents.trim() !== "") {
+      count++;
+    } else if (proposalData.pricingModel) {
+      // If pricing model is selected but conditional field is not filled, we don't count the conditional field
+      // But we need to ensure we don't double count pricingModel which is in otherFields
+      // pricingModel IS in otherFields so it's already counted if filled.
+    }
+
+    return count;
   }, [proposalData]);
 
-  const totalFields = Object.keys(proposalData).length;
+  const totalFields = useMemo(() => {
+    // Base fields (10) + 1 conditional field = 11
+    // Base fields: collegeName, location, contactPerson, mobileNumber, emailId, programName, batch, trainingDays, pricingModel, price
+    return 11;
+  }, []);
 
   const handleExportPdf = async () => {
     if (!isFormComplete) {
