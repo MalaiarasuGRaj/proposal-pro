@@ -124,14 +124,14 @@ const Index = () => {
           });
         } finally {
           setIsGenerating(false);
-          // Reset not strictly necessary as next download will overwrite, but good for cleanup
-          // setGeneratedProposalNumber(null); 
+          // Reset after export to prevent re-triggering when form data changes
+          setGeneratedProposalNumber(null); 
         }
       }
     };
 
     performExport();
-  }, [generatedProposalNumber, exportToPdf, proposalData, toast]);
+  }, [generatedProposalNumber, exportToPdf, toast]);
 
   const handleClearForm = () => {
     setProposalData(initialProposalData);
