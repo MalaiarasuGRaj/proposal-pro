@@ -25,6 +25,7 @@ export const PROGRAM_OPTIONS = [
   "Soft Skill Training",
   "Mock Interview",
   "Campus Recruitment Training (CRT)",
+  "HR 4.0 - Future-Ready HR workshop",
 ] as const;
 
 export const PRICING_MODEL_OPTIONS = [

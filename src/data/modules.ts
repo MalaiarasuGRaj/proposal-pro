@@ -152,5 +152,13 @@ export const PROGRAM_MODULES: Record<string, string[]> = {
         "Placement etiquette & professionalism",
         "Company hiring process awareness",
         "Complete placement readiness roadmap"
+    ],
+    "HR 4.0 - Future-Ready HR workshop": [
+        "LinkedIn Optimization checklist",
+        "50 HR AI prompts",
+        "Future HR skills roadmap",
+        "Personal 30-day career action plan",
+        "AI tools - Claude, Gamma, NotebookLM",
+        "ATS-friendly Resume building"
     ]
 };
